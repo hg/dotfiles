@@ -1,0 +1,4 @@
+--ignore-errors
+-f bestvideo+bestaudio/best
+-o ~/stuff/web/%(title)s.%(ext)s
+
