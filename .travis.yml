@@ -1,0 +1,9 @@
+---
+dist: xenial
+language: minimal
+
+before_install:
+  - sudo apt-get install -y stow shellcheck
+
+script:
+  - shellcheck install
