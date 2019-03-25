@@ -1,0 +1,18 @@
+#!/usr/bin/sh
+
+# background services
+redshift &
+xsetroot -solid '#202020' &
+xdotool mousemove 9999 9999 &
+lxpolkit &
+
+# applications
+telegram-desktop &
+firefox &
+
+# start with delay
+(
+sleep 15
+exec qbittorrent
+) &
+
