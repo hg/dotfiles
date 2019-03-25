@@ -1,0 +1,7 @@
+[user]
+	name = Kirill Isakov
+	email = is-kir@ya.ru
+[core]
+	autocrlf = input
+[diff]
+	tool = vimdiff
