@@ -5,14 +5,3 @@
 [[ -f ~/.bashrc       ]] && . ~/.bashrc
 [[ -f ~/.bash_aliases ]] && . ~/.bash_aliases
 
-# local bin
-export PATH=$HOME/.local/bin:$PATH
-
-# Go
-#export GOROOT=$HOME/.go
-#export PATH=$PATH:$GOROOT/bin
-export GOPATH=$HOME/src/go
-
-# Rust
-export PATH="$HOME/.cargo/bin:$PATH"
-
