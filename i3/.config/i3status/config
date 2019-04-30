@@ -15,7 +15,7 @@ volume master {
 }
 
 tztime date {
-	format = "%B, %A %d"
+	format = "%A, %B %d"
 }
 
 tztime time {
