@@ -17,3 +17,6 @@ export PATH=$HOME/.cargo/bin:$PATH
 # npm
 export PATH=$PATH:$HOME/.local/lib/npm/bin/
 
+# Go
+export PATH=$PATH:$HOME/go/bin
+
