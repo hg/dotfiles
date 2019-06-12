@@ -136,10 +136,8 @@ bindsym $mod+Ctrl+l resize grow   width  10 px or 10 ppt
 bindsym $mod+q exec thunar
 
 # volume
-bindsym $mod+Prior      exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym $mod+Next       exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym $mod+Ctrl+Prior exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +1%
-bindsym $mod+Ctrl+Next  exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -1%
+bindsym $mod+c exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2%
+bindsym $mod+x exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2%
 
 # screenshots
 bindsym Print      exec xfce4-screenshooter --fullscreen

@@ -3,9 +3,15 @@ general {
 	colors = true
 }
 
+order += "ethernet wg0"
 order += "volume master"
 order += "tztime date"
 order += "tztime time"
+
+ethernet wg0 {
+	format_up = "wg: %ip"
+	format_down = "wg: no"
+}
 
 volume master {
 	format = "♪: %volume"
