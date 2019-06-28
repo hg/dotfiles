@@ -5,3 +5,7 @@
 
 shopt -s autocd
 
+export HISTTIMEFORMAT='%Y-%m-%d %H:%M:%S  '
+export HISTFILESIZE=
+export HISTSIZE=
+

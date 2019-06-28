@@ -175,3 +175,9 @@ function ConfigureLangModeShell()
   setlocal softtabstop=2
 endfunction
 
+" cpp
+autocmd FileType c,cpp call ConfigureLangModeCpp()
+function ConfigureLangModeCpp()
+  nnoremap <leader>f :w<CR> :!clang-format -i %<CR><CR>
+endfunction
+
