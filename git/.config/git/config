@@ -1,7 +1,8 @@
 [user]
-	name = hg
+	name = Kirill Isakov
 	email = is-kir@ya.ru
 [core]
 	autocrlf = input
+	excludesFile = ~/.config/git/gitignore
 [diff]
 	tool = vimdiff
