@@ -7,12 +7,12 @@ xdotool mousemove 9999 9999 &
 lxpolkit &
 
 # applications
-telegram-desktop &
+#telegram-desktop &
 firefox &
 
 # start with delay
 (
-sleep 15
-exec qbittorrent
+  sleep 15
+  exec /usr/bin/firejail /usr/bin/qbittorrent
 ) &
 

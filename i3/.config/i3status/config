@@ -4,19 +4,13 @@ general {
 }
 
 order += "ethernet wg0"
-order += "ethernet tun0"
 order += "volume master"
 order += "tztime date"
 order += "tztime time"
 
 ethernet wg0 {
-	format_up = "wg: %ip"
-	format_down = "wg: no"
-}
-
-ethernet tun0 {
-	format_up = "new: %ip"
-	format_down = "new: no"
+	format_up = "vpn: %ip"
+	format_down = "vpn: no"
 }
 
 volume master {
