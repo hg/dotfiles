@@ -27,7 +27,8 @@ bindsym $mod+grave exec xfce4-terminal --drop-down --title='Python REPL' --execu
 bindsym $mod+Shift+q kill
 
 # start rofi
-bindsym $mod+d exec rofi -show drun -modi drun -matching fuzzy -drun-match-fields name
+# bindsym $mod+d exec rofi -show drun -modi drun -matching fuzzy -drun-match-fields name
+bindsym $mod+d exec rofi -show drun -modi drun -matching fuzzy --drun-match-fields name -lines 25 -columns 2
 
 default_border          pixel 1
 default_floating_border pixel 1
@@ -145,8 +146,8 @@ bindsym $mod+Print exec xfce4-screenshooter --window
 bindsym Ctrl+Print exec xfce4-screenshooter --region
 
 # shutdown
-bindsym $mod+Pause       exec --no-startup-id systemctl hibernate
-bindsym $mod+Shift+Pause exec --no-startup-id systemctl suspend
+bindsym $mod+Pause       exec --no-startup-id systemctl suspend
+#bindsym $mod+Shift+Pause exec --no-startup-id systemctl suspend
 bindsym $mod+Escape      exec --no-startup-id ~/.config/i3/display-off
 
 # window-to-desktop mapping

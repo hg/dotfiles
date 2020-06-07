@@ -123,7 +123,7 @@ endif
 call plug#begin()
 
 " plugins
-" Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+Plug 'dense-analysis/ale'
 
 " themes
 Plug 'w0ng/vim-hybrid'
@@ -140,6 +140,11 @@ set background=dark
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                              configure plugins                              "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" ALE
+let g:ale_linters = {'rust': ['analyzer']}
+
+let g:OmniSharp_server_stdio = 1
 
 " netrw
 let g:netrw_banner = 0
@@ -173,6 +178,9 @@ function ConfigureLangModeShell()
   setlocal expandtab
   setlocal shiftwidth=2
   setlocal softtabstop=2
+
+  nnoremap <leader>f :w<CR> :!shfmt -w -s -i 2 %<CR><CR>
+  nnoremap <leader>c :w<CR> :!shellcheck %<CR>
 endfunction
 
 " cpp

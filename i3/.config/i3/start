@@ -1,18 +1,21 @@
-#!/usr/bin/sh
+#!/usr/bin/bash
 
-# background services
-redshift &
+run_bg() {
+  systemd-run --user --unit="$1" --scope \
+    --nice=10 --property=MemoryHigh=1G \
+    --slice=background \
+    "$@" & disown
+}
+
+# oneshot applications
 xsetroot -solid '#202020' &
 xdotool mousemove 9999 9999 &
-lxpolkit &
 
-# applications
+# background services
+run_bg redshift
+run_bg lxpolkit
+run_bg qbittorrent
+
+# interactive applications
 #telegram-desktop &
 firefox &
-
-# start with delay
-(
-  sleep 15
-  exec /usr/bin/firejail /usr/bin/qbittorrent
-) &
-
