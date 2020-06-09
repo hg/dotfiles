@@ -20,6 +20,5 @@ __exit_status() {
 }
 
 source /usr/share/git-core/contrib/completion/git-prompt.sh
-source /usr/share/fzf/shell/key-bindings.bash
 
 PS1='\n$(__exit_status)\[\e[1;34m\]\u@\H\e[0;33m\]$(__git_ps1 " (%s)")\e[1;30m\] \[\e[1;37m\]\w\[\e[0;37m\] \n\$ '

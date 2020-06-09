@@ -18,9 +18,11 @@ export PATH=$HOME/.cargo/bin:$PATH
 export PATH=$PATH:$HOME/.local/lib/npm/bin/
 
 # Go
-export PATH=$PATH:$HOME/go/bin
+export GOPATH=$HOME/src/go
+export PATH=$PATH:$HOME/src/go/bin
 
 # Android
 export ANDROID_HOME="$HOME/src/public/android/sdk/"
 
 export EDITOR=vim
+
