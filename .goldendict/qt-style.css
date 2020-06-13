@@ -1,0 +1,14 @@
+MainWindow #searchPane #translateLine,
+MainWindow #searchPane #wordList {
+    background: #383c4a;
+    color: #D4D2CF;
+}
+
+MainWindow #translateLine,
+ScanPopup #translateLine,
+MainWindow #wordList,
+MainWindow #dictsPane #dictsList,
+MainWindow #historyPane #historyList {
+    background: #383c4a;
+    color: #D4D2CF
+}

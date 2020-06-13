@@ -1,0 +1,23 @@
+<?xml encoding="UTF-8" version="1.0"?>
+<actions>
+<action>
+	<icon>utilities-terminal</icon>
+	<name>Open Terminal Here</name>
+	<unique-id>1505561205332419-1</unique-id>
+	<command>xfce4-terminal %f</command>
+	<description></description>
+	<patterns>*</patterns>
+	<startup-notify/>
+	<directories/>
+</action>
+<action>
+	<icon>list-add</icon>
+	<name>Add to Watchlist</name>
+	<unique-id>1505848136543155-2</unique-id>
+	<command>~/.local/bin/watchlist %F</command>
+	<description>Add to Watchlist</description>
+	<patterns>*</patterns>
+	<directories/>
+	<video-files/>
+</action>
+</actions>
