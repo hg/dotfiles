@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+# background services
+gammastep &
+
+# interactive applications
+firefox &
+telegram-desktop &
+deadbeef &
+qbittorrent &
+

@@ -1,0 +1,187 @@
+# vim: sts=4 sw=4 et ai
+
+set $mod Mod4
+
+# Font for window titles. Will also be used by the bar unless a different font
+# is used in the bar {} block below.
+font pango:monospace 8
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# hide borders for fullscreen windows
+hide_edge_borders smart
+
+default_border          pixel 1
+default_floating_border pixel 1
+
+workspace_layout tabbed
+focus_follows_mouse no
+
+# status bar
+bar {
+    status_command i3status
+    font           "monospace 10"
+    tray_output    none
+    position       top
+    mode           hide
+}
+
+swaybg_command -
+
+# Define names for default workspaces for which we configure key bindings later on.
+# We use variables to avoid repeating the names in multiple places.
+set $ws1  "1"
+set $ws2  "2"
+set $ws3  "3"
+set $ws4  "4"
+set $ws5  "5"
+set $ws6  "6"
+set $ws7  "7"
+set $ws8  "8"
+set $ws9  "9"
+set $ws10 "10"
+
+# window control
+bindsym --to-code {
+    # kill focused window
+    $mod+Shift+q kill
+
+    # restart sway in-place
+    $mod+Shift+r restart
+
+    # change focus
+    $mod+h focus left
+    $mod+j focus down
+    $mod+k focus up
+    $mod+l focus right
+
+    $mod+Tab       focus right
+    $mod+Shift+Tab focus left
+
+    # move focused window
+    $mod+Shift+h move left
+    $mod+Shift+j move down
+    $mod+Shift+k move up
+    $mod+Shift+l move right
+
+    # split in horizontal orientation
+    $mod+g split horizontal
+
+    # split in vertical orientation
+    $mod+v split v
+
+    # enter fullscreen mode for the focused container
+    $mod+f fullscreen toggle
+
+    # change container layout (stacked, tabbed, toggle split)
+    # $mod+s layout stacking
+    $mod+s layout toggle tabbed splith
+
+    # toggle tiling / floating
+    $mod+Shift+space floating toggle
+
+    # change focus between tiling / floating windows
+    $mod+space focus mode_toggle
+
+    # window resizing
+    $mod+Ctrl+h resize shrink width  10 px or 10 ppt
+    $mod+Ctrl+j resize grow   height 10 px or 10 ppt
+    $mod+Ctrl+k resize shrink height 10 px or 10 ppt
+    $mod+Ctrl+l resize grow   width  10 px or 10 ppt
+}
+
+# workspace control
+bindsym --to-code {
+    # switch to workspace
+    $mod+1 workspace $ws1
+    $mod+2 workspace $ws2
+    $mod+3 workspace $ws3
+    $mod+4 workspace $ws4
+    $mod+5 workspace $ws5
+    $mod+6 workspace $ws6
+    $mod+7 workspace $ws7
+    $mod+8 workspace $ws8
+    $mod+9 workspace $ws9
+    $mod+0 workspace $ws10
+
+    # switch to urgent
+    $mod+w workspace back_and_forth
+
+    # move focused container to workspace
+    $mod+Shift+1 move container to workspace $ws1
+    $mod+Shift+2 move container to workspace $ws2
+    $mod+Shift+3 move container to workspace $ws3
+    $mod+Shift+4 move container to workspace $ws4
+    $mod+Shift+5 move container to workspace $ws5
+    $mod+Shift+6 move container to workspace $ws6
+    $mod+Shift+7 move container to workspace $ws7
+    $mod+Shift+8 move container to workspace $ws8
+    $mod+Shift+9 move container to workspace $ws9
+    $mod+Shift+0 move container to workspace $ws10
+}
+
+# external applications
+bindsym --to-code {
+    # application hotkeys
+    $mod+q      exec thunar
+    $mod+Return exec xfce4-terminal
+    $mod+grave  exec xfce4-terminal --drop-down --title='Python REPL' --execute python3 -q
+    $mod+d      exec rofi -show drun -modi drun -matching fuzzy --drun-match-fields name -lines 25 -columns 2
+
+    # player control
+    $mod+z            exec --no-startup-id playerctl --player DeaDBeeF play-pause
+    $mod+bracketleft  exec --no-startup-id playerctl --player DeaDBeeF previous
+    $mod+bracketright exec --no-startup-id playerctl --player DeaDBeeF next
+    $mod+Shift+x      exec --no-startup-id playerctl --player DeaDBeeF position 60-
+    $mod+Shift+c      exec --no-startup-id playerctl --player DeaDBeeF position 60+
+
+    # volume
+    $mod+c exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2%
+    $mod+x exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2%
+
+    # screenshots
+    Print exec grim -g "$(slurp)" - | tee "$HOME/img/shots/$(date -Iseconds).png" | wl-copy
+}
+
+# window-to-desktop mapping
+assign [app_id="firefox"]                     → 1
+assign [app_id="telegramdesktop"]             → 1
+assign [app_id="deadbeef"]                    → 5
+assign [app_id="org.qbittorrent.qBittorrent"] → 10
+
+# bugfixes
+#for_window [class="^jetbrains-.+"][window_type=dialog] focus
+
+# autostart
+exec ~/.config/sway/start
+
+input type:keyboard {
+    xkb_model    "pc105"
+    xkb_layout   "us,ru"
+    xkb_options  "grp:caps_toggle,compose:rwin"
+    repeat_delay 330
+    repeat_rate  40
+}
+
+seat * {
+    idle_wake keyboard switch
+}
+
+# gtk settings
+exec_always {
+    gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
+    gsettings set org.gnome.desktop.interface font-name 'Sans 10'
+}
+
+exec {
+    swayidle -w \
+        timeout 300 'swaymsg "output * dpms off"' \
+        resume 'swaymsg "output * dpms on"'
+}
+
+# bugfixes
+for_window [class="^jetbrains-.+"][window_type=dialog] focus
+
+include /etc/sway/config.d/*
+
