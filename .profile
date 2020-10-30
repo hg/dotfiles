@@ -20,6 +20,12 @@ export PATH=$PATH:$HOME/src/go/bin
 # Android
 export ANDROID_HOME="$HOME/src/public/android/sdk/"
 
-export EDITOR=nvim
-export VISUAL=nvim
+export EDITOR=vim
+export VISUAL=vim
+export BROWSER=firefox
+
+# ESP32
+export IDF_TOOLS_PATH=$HOME/.local/opt/espressif
+
+export MOZ_ENABLE_WAYLAND=1
 

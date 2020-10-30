@@ -52,6 +52,9 @@ set relativenumber
 set list
 set listchars=tab:>-,trail:•,extends:>,precedes:<
 
+" disable mouse
+set mouse=
+
 " use space as leader key
 let mapleader = " "
 
@@ -72,11 +75,6 @@ au BufReadPost *
       \ if line("'\"") > 1 && line("'\"") <= line("$") |
       \   exe "normal! g'\"" |
       \ endif
-
-" enable mouse support
-if has('mouse')
-  set mouse=a
-endif
 
 " undo changes from last editing sessions
 if has('persistent_undo')
@@ -123,7 +121,8 @@ endif
 call plug#begin()
 
 " plugins
-Plug 'dense-analysis/ale'
+Plug 'ycm-core/YouCompleteMe'
+Plug 'junegunn/fzf.vim'
 
 " themes
 Plug 'w0ng/vim-hybrid'
@@ -186,6 +185,9 @@ endfunction
 " cpp
 autocmd FileType c,cpp call ConfigureLangModeCpp()
 function ConfigureLangModeCpp()
-  nnoremap <leader>f :w<CR> :!clang-format -i %<CR><CR>
+  nnoremap <leader>f        :w<CR> :YcmCompleter Format<CR>
+  nnoremap <leader><leader> :YcmCompleter GoTo<CR>
+  nnoremap <leader>r        :YcmCompleter GoToReferences<CR>
+  nnoremap <leader>s        :YcmCompleter GoToSymbol 
 endfunction
 

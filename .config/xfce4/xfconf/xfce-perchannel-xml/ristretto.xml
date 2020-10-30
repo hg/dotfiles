@@ -14,6 +14,7 @@
     </property>
     <property name="thumbnails" type="empty">
       <property name="size" type="uint" value="3"/>
+      <property name="show" type="bool" value="false"/>
     </property>
   </property>
   <property name="desktop" type="empty">

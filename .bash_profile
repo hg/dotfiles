@@ -2,6 +2,11 @@
 # vim: sts=2 sw=2 et
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
-[[ -f ~/.bash_aliases ]] && . ~/.bash_aliases
 [[ -f ~/.profile ]] && . ~/.profile
 
+if [[ "$(tty)" = "/dev/tty1" ]]; then
+  #exec startx
+  eval "$(ssh-agent)"
+  ssh-add ~/.ssh/{id_ed25519,work}
+  exec sway
+fi

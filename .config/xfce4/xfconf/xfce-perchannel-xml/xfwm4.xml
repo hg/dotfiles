@@ -2,7 +2,7 @@
 
 <channel name="xfwm4" version="1.0">
   <property name="general" type="empty">
-    <property name="activate_action" type="string" value="switch"/>
+    <property name="activate_action" type="string" value="none"/>
     <property name="borderless_maximize" type="bool" value="true"/>
     <property name="box_move" type="bool" value="true"/>
     <property name="box_resize" type="bool" value="true"/>
@@ -43,7 +43,7 @@
     <property name="raise_with_any_button" type="bool" value="true"/>
     <property name="repeat_urgent_blink" type="bool" value="false"/>
     <property name="resize_opacity" type="int" value="100"/>
-    <property name="scroll_workspaces" type="bool" value="true"/>
+    <property name="scroll_workspaces" type="bool" value="false"/>
     <property name="shadow_delta_height" type="int" value="0"/>
     <property name="shadow_delta_width" type="int" value="0"/>
     <property name="shadow_delta_x" type="int" value="0"/>
@@ -60,8 +60,8 @@
     <property name="vblank_mode" type="string" value="auto"/>
     <property name="theme" type="string" value="Default"/>
     <property name="tile_on_move" type="bool" value="true"/>
-    <property name="title_alignment" type="string" value="center"/>
-    <property name="title_font" type="string" value="Sans Bold 9"/>
+    <property name="title_alignment" type="string" value="left"/>
+    <property name="title_font" type="string" value="Sans Bold 8"/>
     <property name="title_horizontal_offset" type="int" value="0"/>
     <property name="titleless_maximize" type="bool" value="true"/>
     <property name="title_shadow_active" type="string" value="false"/>

@@ -32,10 +32,14 @@
       <property name="&lt;Super&gt;x" type="string" value="pactl set-sink-volume @DEFAULT_SINK@ -2%"/>
       <property name="&lt;Super&gt;q" type="string" value="thunar"/>
       <property name="&lt;Super&gt;grave" type="string" value="xfce4-terminal --drop-down --title=Python --execute python3 -q"/>
-      <property name="&lt;Super&gt;Return" type="string" value="xfce4-terminal"/>
       <property name="&lt;Super&gt;c" type="string" value="pactl set-sink-volume @DEFAULT_SINK@ +2%"/>
-      <property name="&lt;Super&gt;Escape" type="string" value="display-off"/>
       <property name="Print" type="string" value="screenshot.sh"/>
+      <property name="&lt;Super&gt;Return" type="string" value="xfce4-terminal"/>
+      <property name="&lt;Super&gt;w" type="string" value="rofi -show window -modi window -matching fuzzy --drun-match-fields name"/>
+      <property name="&lt;Super&gt;p" type="string" value="gpick --single"/>
+      <property name="&lt;Super&gt;Escape" type="string" value="display-off"/>
+      <property name="&lt;Shift&gt;&lt;Super&gt;Escape" type="string" value="systemctl suspend"/>
+      <property name="&lt;Super&gt;space" type="string" value="dunstctl close-all"/>
     </property>
   </property>
   <property name="xfwm4" type="empty">

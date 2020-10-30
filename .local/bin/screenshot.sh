@@ -5,6 +5,6 @@ out="$dir/$(date -Iseconds).png"
 
 mkdir --parents "$dir"
 
-maim --select |
+shotgun --format png --geometry $(hacksaw) - |
   tee "$out" |
   xclip -selection clipboard -t image/png

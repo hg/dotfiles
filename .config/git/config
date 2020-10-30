@@ -1,16 +1,32 @@
 [user]
 	name = Kirill Isakov
 	email = is-kir@ya.ru
+	signingKey = 1CD37665FDE612EB6DF55F9A7061732300C5BE15
+
 [core]
 	autocrlf = input
 	excludesFile = ~/.config/git/gitignore
 	pager = delta --plus-color="#012800" --minus-color="#340001" --theme=1337
+
 [interactive]
 	diffFilter = delta --color-only
+
 [diff]
 	tool = vimdiff
+
 [alias]
+	# short for recommit
+	rc = commit --amend --date=now
 	s = status
 	a = add .
-	rc = commit --amend --date=now
+	c = commit
+	pr = pull --rebase
+	co = checkout
+	l = log --graph --oneline --decorate --all
 
+[pull]
+	rebase = true
+[credential]
+	helper = store
+[commit]
+	gpgSign = true

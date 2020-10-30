@@ -70,11 +70,6 @@ au BufReadPost *
       \   exe "normal! g'\"" |
       \ endif
 
-" enable mouse support
-if has('mouse')
-  set mouse=a
-endif
-
 " undo changes from last editing sessions
 if has('persistent_undo')
   set undodir=~/.local/share/nvim/undo
@@ -118,12 +113,12 @@ endif
 call plug#begin()
 
 " plugins
-Plug 'dense-analysis/ale'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" Plug 'neovim/nvim-lsp'
-Plug 'tpope/vim-fugitive'
+"Plug 'dense-analysis/ale'
+"Plug 'ap/vim-css-color'
+"Plug 'junegunn/fzf.vim'
 
 " themes
+Plug 'morhetz/gruvbox'
 Plug 'w0ng/vim-hybrid'
 
 call plug#end()
@@ -132,12 +127,20 @@ call plug#end()
 "                                    theme                                    "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-colorscheme hybrid
+"colorscheme hybrid
+
+let g:gruvbox_contrast_dark="hard"
+colorscheme gruvbox
 set background=dark
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                              configure plugins                              "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" git
+set updatetime=100
+nmap <leader>j <plug>(signify-next-hunk)
+nmap <leader>k <plug>(signify-prev-hunk)
 
 " netrw
 let g:netrw_banner = 0
@@ -160,17 +163,6 @@ map <C-.> :cnext<CR>
 
 " format as table
 vnoremap <Tab> !column -t -o ' '<CR>
-
-" LSP
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-nmap <leader><leader> <Plug>(coc-definition)
-nmap <leader>r <Plug>(coc-rename)
-xmap <leader>f <Plug>(coc-format-selected)
-nmap <leader>f <Plug>(coc-format-selected)
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                            configure filetypes                              "
