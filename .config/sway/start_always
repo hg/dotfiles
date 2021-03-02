@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+
+gnome='org.gnome.desktop.interface'
+
+gsettings set $gnome gtk-theme 'Adwaita-dark'
+gsettings set $gnome font-name 'Sans 10'
+

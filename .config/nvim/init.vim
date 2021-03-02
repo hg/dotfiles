@@ -52,6 +52,9 @@ set relativenumber
 set list
 set listchars=tab:>-,trail:•,extends:>,precedes:<
 
+" disable mouse
+set mouse=
+
 " use space as leader key
 let mapleader = " "
 
@@ -72,17 +75,22 @@ au BufReadPost *
 
 " undo changes from last editing sessions
 if has('persistent_undo')
-  set undodir=~/.local/share/nvim/undo
+  set undodir=~/.vim/undo/
   silent call system('mkdir -p ' . &undodir)
   set undofile
 endif
+
+let g:python_host_prog  = '/usr/bin/python2'
+let g:python3_host_prog = '/usr/bin/python3'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                              editor appearance                              "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " 24-bit colors
-set termguicolors
+if &t_Co > 256
+  set termguicolors
+endif
 
 " hide toolbar, menu, and scrollbars
 if has('gui_running')
@@ -100,6 +108,14 @@ set colorcolumn=80
 " highlight current line
 set cursorline
 
+" https://github.com/kovidgoyal/kitty/issues/108#issuecomment-320492663
+" vim hardcodes background color erase even if the terminfo file does
+" not contain bce (not to mention that libvte based terminals
+" incorrectly contain bce in their terminfo files). This causes
+" incorrect background rendering when using a color theme with a
+" background color.
+let &t_ut=''
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                 load plugins                                "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -112,13 +128,13 @@ endif
 
 call plug#begin()
 
-" plugins
-"Plug 'dense-analysis/ale'
-"Plug 'ap/vim-css-color'
-"Plug 'junegunn/fzf.vim'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
+Plug 'junegunn/fzf.vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-sleuth'
 
 " themes
-Plug 'morhetz/gruvbox'
 Plug 'w0ng/vim-hybrid'
 
 call plug#end()
@@ -127,20 +143,24 @@ call plug#end()
 "                                    theme                                    "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"colorscheme hybrid
+let g:gruvbox_contrast_dark = 'hard'
 
-let g:gruvbox_contrast_dark="hard"
-colorscheme gruvbox
+colorscheme hybrid
 set background=dark
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                              configure plugins                              "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" git
-set updatetime=100
-nmap <leader>j <plug>(signify-next-hunk)
-nmap <leader>k <plug>(signify-prev-hunk)
+let g:deoplete#enable_at_startup = 1
+set completeopt-=preview
+
+let g:LanguageClient_serverCommands = {
+  \ 'cpp': ['clangd'],
+  \ 'go': ['gopls'],
+  \ }
+
+autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
 
 " netrw
 let g:netrw_banner = 0
@@ -148,10 +168,6 @@ let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 let g:netrw_liststyle = 3
 let g:netrw_list_hide = netrw_gitignore#Hide()
-
-" vim-go
-" let g:go_fmt_command = "goimports"
-" let g:go_metalinter_autosave = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                  hotkeys                                    "
@@ -164,6 +180,19 @@ map <C-.> :cnext<CR>
 " format as table
 vnoremap <Tab> !column -t -o ' '<CR>
 
+" Alt+F
+nnoremap <M-f> :GFiles<CR>
+nnoremap <M-x> :Commands<CR>
+nnoremap <M-s> :Rg<CR>
+
+nnoremap <leader>f                 :call LanguageClient#textDocument_formatting_sync()<CR>
+nnoremap <silent> <leader><leader> :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <leader>b        :call LanguageClient#textDocument_implementation()<CR>
+nnoremap <silent> <leader>m        <Plug>(lcn-menu)
+nnoremap <silent> <leader>r        :call LanguageClient#textDocument_references()<CR>
+nnoremap <silent> <leader>n        :call LanguageClient#textDocument_rename()<CR>
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                            configure filetypes                              "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -171,16 +200,16 @@ vnoremap <Tab> !column -t -o ' '<CR>
 " bash & friends
 autocmd FileType sh call ConfigureLangModeShell()
 function ConfigureLangModeShell()
-  setlocal expandtab
-  setlocal shiftwidth=2
-  setlocal softtabstop=2
-
   nnoremap <leader>f :w<CR> :!shfmt -w -s -i 2 %<CR><CR>
+  nnoremap <leader>c :w<CR> :!shellcheck %<CR>
 endfunction
 
 " cpp
-autocmd FileType c,cpp call ConfigureLangModeCpp()
+autocmd FileType c,cpp,go call ConfigureLangModeCpp()
 function ConfigureLangModeCpp()
-  nnoremap <leader>f :w<CR> :!clang-format -i %<CR><CR>
 endfunction
 
+autocmd FileType go call ConfigureLangModeGo()
+function ConfigureLangModeGo()
+  setlocal ts=4
+endfunction

@@ -3,21 +3,9 @@ general {
 	colors = true
 }
 
-order += "ethernet wg-work"
-order += "ethernet tun0"
 order += "volume master"
 order += "tztime date"
 order += "tztime time"
-
-ethernet wg-work {
-	format_up = "work: %ip"
-	format_down = "work: no"
-}
-
-ethernet tun0 {
-	format_up = "tun: %ip"
-	format_down = "tun: no"
-}
 
 volume master {
 	format = "♪: %volume"

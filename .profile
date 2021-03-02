@@ -28,4 +28,6 @@ export BROWSER=firefox
 export IDF_TOOLS_PATH=$HOME/.local/opt/espressif
 
 export MOZ_ENABLE_WAYLAND=1
+export _JAVA_AWT_WM_NONREPARENTING=1
 
+export PATH="$HOME/.cargo/bin:$PATH"

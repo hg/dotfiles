@@ -5,8 +5,9 @@
 [[ -f ~/.profile ]] && . ~/.profile
 
 if [[ "$(tty)" = "/dev/tty1" ]]; then
-  #exec startx
+  pkill -u $USER ssh-agent
   eval "$(ssh-agent)"
-  ssh-add ~/.ssh/{id_ed25519,work}
+  ssh-add ~/.ssh/{main,work}
   exec sway
 fi
+

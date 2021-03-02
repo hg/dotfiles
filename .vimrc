@@ -108,6 +108,14 @@ set colorcolumn=80
 " highlight current line
 set cursorline
 
+" https://github.com/kovidgoyal/kitty/issues/108#issuecomment-320492663
+" vim hardcodes background color erase even if the terminfo file does
+" not contain bce (not to mention that libvte based terminals
+" incorrectly contain bce in their terminfo files). This causes
+" incorrect background rendering when using a color theme with a
+" background color.
+let &t_ut=''
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                 load plugins                                "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -120,9 +128,9 @@ endif
 
 call plug#begin()
 
-" plugins
-Plug 'ycm-core/YouCompleteMe'
 Plug 'junegunn/fzf.vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-sleuth'
 
 " themes
 Plug 'w0ng/vim-hybrid'
@@ -133,6 +141,8 @@ call plug#end()
 "                                    theme                                    "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+let g:gruvbox_contrast_dark = 'hard'
+
 colorscheme hybrid
 set background=dark
 
@@ -140,10 +150,9 @@ set background=dark
 "                              configure plugins                              "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" ALE
-let g:ale_linters = {'rust': ['analyzer']}
-
-let g:OmniSharp_server_stdio = 1
+let g:LanguageClient_serverCommands = {
+  \ 'cpp': ['clangd'],
+  \ }
 
 " netrw
 let g:netrw_banner = 0
@@ -167,6 +176,11 @@ map <C-.> :cnext<CR>
 " format as table
 vnoremap <Tab> !column -t -o ' '<CR>
 
+" Alt+F
+nnoremap f :GFiles<CR>
+nnoremap x :Commands<CR>
+nnoremap s :Rg<CR>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                            configure filetypes                              "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -174,20 +188,29 @@ vnoremap <Tab> !column -t -o ' '<CR>
 " bash & friends
 autocmd FileType sh call ConfigureLangModeShell()
 function ConfigureLangModeShell()
-  setlocal expandtab
-  setlocal shiftwidth=2
-  setlocal softtabstop=2
-
   nnoremap <leader>f :w<CR> :!shfmt -w -s -i 2 %<CR><CR>
   nnoremap <leader>c :w<CR> :!shellcheck %<CR>
 endfunction
 
 " cpp
-autocmd FileType c,cpp call ConfigureLangModeCpp()
+autocmd FileType c,cpp,go call ConfigureLangModeCpp()
 function ConfigureLangModeCpp()
   nnoremap <leader>f        :w<CR> :YcmCompleter Format<CR>
   nnoremap <leader><leader> :YcmCompleter GoTo<CR>
   nnoremap <leader>r        :YcmCompleter GoToReferences<CR>
-  nnoremap <leader>s        :YcmCompleter GoToSymbol 
+  nnoremap <leader>s        :YcmCompleter GoToSymbol
+  nnoremap <leader>n        :YcmCompleter RefactorRename
+
+  nnoremap <leader>f        w<CR> :YcmCompleter Format<CR>
+  nnoremap <silent> <leader><leader> :call LanguageClient#textDocument_definition()<CR>
+  nnoremap <silent> <leader>m        :call LanguageClient#textDocument_menu()<CR>
+  nnoremap <silent> <leader>r        :call LanguageClient#textDocument_references()<CR>
+  nnoremap <silent> <leader>n        :call LanguageClient#textDocument_rename()<CR>
+
+  nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
 endfunction
 
+autocmd FileType go call ConfigureLangModeGo()
+function ConfigureLangModeGo()
+  setlocal ts=4
+endfunction

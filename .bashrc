@@ -33,7 +33,7 @@ _last_exit_status() {
   local status=$?
   [[ $status != 0 ]] && echo -ne " ⟨\e[1;31m$status\e[0m⟩ "
 }
-PS1='\n\[\e[1;34m\]\u@\H\e[0;33m\]$(__git_ps1 " (%s)") \[\e[1;30m\]\w\[\e[0m\]$(_last_exit_status)\n\$ '
+PS1='\n\[\e[1;34m\]\u@\H\e[0;33m\]$(__git_ps1 " (%s)") \[\e[1;37m\]\w\[\e[0m\]$(_last_exit_status)\n\$ '
 
 # man colors
 man() {
@@ -64,3 +64,5 @@ alias dotfiles='/usr/bin/git --git-dir=$HOME/src/personal/dotfiles --work-tree=$
 alias we='curl --compressed wttr.in/49.96,82.62?QAFM'
 alias ip='ip -c'
 alias cp='cp --reflink=auto'
+alias ssh='TERM=xterm-256color ssh'
+

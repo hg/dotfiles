@@ -10,13 +10,15 @@ font pango:monospace 8
 floating_modifier $mod
 
 # hide borders for fullscreen windows
-hide_edge_borders smart
+hide_edge_borders --i3 smart
 
 default_border          pixel 1
 default_floating_border pixel 1
 
 workspace_layout tabbed
 focus_follows_mouse no
+
+title_align center
 
 # status bar
 bar {
@@ -27,6 +29,7 @@ bar {
     mode           hide
 }
 
+# disable swaybg
 swaybg_command -
 
 # Define names for default workspaces for which we configure key bindings later on.
@@ -48,7 +51,7 @@ bindsym --to-code {
     $mod+Shift+q kill
 
     # restart sway in-place
-    $mod+Shift+r restart
+    $mod+Shift+r reload
 
     # change focus
     $mod+h focus left
@@ -125,23 +128,32 @@ bindsym --to-code {
 bindsym --to-code {
     # application hotkeys
     $mod+q      exec thunar
-    $mod+Return exec xfce4-terminal
+    $mod+Return exec kitty --single-instance
     $mod+grave  exec xfce4-terminal --drop-down --title='Python REPL' --execute python3 -q
     $mod+d      exec rofi -show drun -modi drun -matching fuzzy --drun-match-fields name -lines 25 -columns 2
 
     # player control
-    $mod+z            exec --no-startup-id playerctl --player DeaDBeeF play-pause
-    $mod+bracketleft  exec --no-startup-id playerctl --player DeaDBeeF previous
-    $mod+bracketright exec --no-startup-id playerctl --player DeaDBeeF next
-    $mod+Shift+x      exec --no-startup-id playerctl --player DeaDBeeF position 60-
-    $mod+Shift+c      exec --no-startup-id playerctl --player DeaDBeeF position 60+
+    $mod+z            exec deadbeef --play-pause
+    $mod+bracketleft  exec deadbeef --prev
+    $mod+bracketright exec deadbeef --next
+    $mod+Shift+x      exec playerctl --player DeaDBeeF position 60-
+    $mod+Shift+c      exec playerctl --player DeaDBeeF position 60+
 
     # volume
-    $mod+c exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2%
-    $mod+x exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2%
+    #$mod+c exec pactl set-sink-volume @DEFAULT_SINK@ +2%
+    #$mod+x exec pactl set-sink-volume @DEFAULT_SINK@ -2%
+
+    $mod+x exec amixer -q -M set Master 1%-
+    $mod+c exec amixer -q -M set Master 1%+
 
     # screenshots
-    Print exec grim -g "$(slurp)" - | tee "$HOME/img/shots/$(date -Iseconds).png" | wl-copy
+    Print exec ~/.config/sway/bin/screenshot-wl
+
+    # screen off
+    $mod+Escape exec ~/.config/sway/bin/display-off-wl
+
+    # suspend
+    $mod+Shift+Escape exec sleep 5 && systemctl suspend
 }
 
 # window-to-desktop mapping
@@ -150,12 +162,11 @@ assign [app_id="telegramdesktop"]             → 1
 assign [app_id="deadbeef"]                    → 5
 assign [app_id="org.qbittorrent.qBittorrent"] → 10
 
-# bugfixes
-#for_window [class="^jetbrains-.+"][window_type=dialog] focus
-
 # autostart
 exec ~/.config/sway/start
+exec_always ~/.config/sway/start_always
 
+# input config
 input type:keyboard {
     xkb_model    "pc105"
     xkb_layout   "us,ru"
@@ -168,20 +179,11 @@ seat * {
     idle_wake keyboard switch
 }
 
-# gtk settings
-exec_always {
-    gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
-    gsettings set org.gnome.desktop.interface font-name 'Sans 10'
-}
-
-exec {
-    swayidle -w \
-        timeout 300 'swaymsg "output * dpms off"' \
-        resume 'swaymsg "output * dpms on"'
-}
-
-# bugfixes
-for_window [class="^jetbrains-.+"][window_type=dialog] focus
+# per-application configuration
+for_window [class="^jetbrains-.+" window_type=dialog] focus
+for_window [app_id="xfce4-terminal" title="Python REPL"] floating enable
+for_window [app_id=kitty] max_render_time 3
+for_window [app_id=mpv] max_render_time off
 
 include /etc/sway/config.d/*
 

@@ -4,9 +4,17 @@
 	signingKey = 1CD37665FDE612EB6DF55F9A7061732300C5BE15
 
 [core]
+	editor = vim
 	autocrlf = input
 	excludesFile = ~/.config/git/gitignore
-	pager = delta --plus-color="#012800" --minus-color="#340001" --theme=1337
+	pager = delta --line-numbers --side-by-side
+
+[sendemail]
+	smtpencryption = tls
+	smtpserver = smtp.yandex.ru
+	smtpuser = is-kir@ya.ru
+	smtpserverport = 587
+	annotate = yes
 
 [interactive]
 	diffFilter = delta --color-only
@@ -16,17 +24,24 @@
 
 [alias]
 	# short for recommit
-	rc = commit --amend --date=now
+	rc = commit --amend --date=now --no-edit
+	rce = commit --amend --date=now
 	s = status
 	a = add .
-	c = commit
-	pr = pull --rebase
+	c = commit --message
 	co = checkout
 	l = log --graph --oneline --decorate --all
 
 [pull]
 	rebase = true
+
 [credential]
 	helper = store
+
 [commit]
 	gpgSign = true
+
+[init]
+	defaultBranch = master
+[push]
+	default = current

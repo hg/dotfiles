@@ -9,4 +9,5 @@
 --retries 100
 --fragment-retries 100
 --continue
+--default-search ytsearch
 
