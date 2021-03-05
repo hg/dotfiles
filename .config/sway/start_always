@@ -1,5 +1,8 @@
 #!/usr/bin/bash
 
+systemctl --user import-environment
+systemctl --user start sway-session.target
+
 gnome='org.gnome.desktop.interface'
 
 gsettings set $gnome gtk-theme 'Adwaita-dark'

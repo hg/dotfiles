@@ -1,0 +1,62 @@
+#!/bin/bash
+# mostly copied from https://git.sr.ht/~sircmpwn/dotfiles/tree/master/item/bin/paste
+
+set -euo pipefail
+
+api=https://paste.sr.ht
+
+on_fail() {
+  notify-send 'could not create paste'
+  exit 1
+}
+
+trap on_fail ERR
+
+. ~/.config/sr.ht
+
+content=$(wl-paste --no-newline)
+
+if [[ -s $content ]]; then
+  extension=${content##*.}
+  content=$(cat "$content")
+else
+  extension=''
+fi
+
+[[ -z $extension ]] && {
+  extensions='sh cs go ts tsx js jsx yml java kt rs py txt md'
+  extension=$(tr ' ' '\n' <<<"$extensions" | rofi -dmenu -p 'file extension')
+}
+
+[[ -z $extension ]] && {
+  echo >&2 file extension not set
+  exit 1
+}
+
+json='{
+  "visibility": "unlisted",
+  "files": [
+    { "contents": ., "filename": "'"paste.$extension"'" }
+  ]
+}'
+
+body=$(jq --slurp --raw-input "$json" <<<"$content")
+
+echo $body > ~/body.json
+
+response=$(
+  curl \
+    --header "authorization: token $AUTH_TOKEN" \
+    --header 'content-type: application/json' \
+    --request POST \
+    --data "$body" $api/api/pastes
+)
+
+printf "%s\n" "$response"
+
+sha=$(jq --raw-output .sha <<<"$response")
+usr=$(jq --raw-output .user.canonical_name <<<"$response")
+url=$api/$usr/$sha
+
+wl-copy "$url"
+notify-send 'paste created' "$url"

@@ -149,6 +149,9 @@ bindsym --to-code {
     # screenshots
     Print exec ~/.config/sway/bin/screenshot-wl
 
+    # paste clipboard to sr.ht
+    $mod+p exec ~/.local/bin/srht-paste
+
     # screen off
     $mod+Escape exec ~/.config/sway/bin/display-off-wl
 
@@ -157,13 +160,15 @@ bindsym --to-code {
 }
 
 # window-to-desktop mapping
-assign [app_id="firefox"]                     → 1
-assign [app_id="telegramdesktop"]             → 1
-assign [app_id="deadbeef"]                    → 5
-assign [app_id="org.qbittorrent.qBittorrent"] → 10
+assign {
+    [app_id="firefox"]                     → 1
+    [app_id="telegramdesktop"]             → 1
+    [app_id="deadbeef"]                    → 5
+    [app_id="org.qbittorrent.qBittorrent"] → 10
+}
 
 # autostart
-exec ~/.config/sway/start
+exec        ~/.config/sway/start
 exec_always ~/.config/sway/start_always
 
 # input config
@@ -177,13 +182,32 @@ input type:keyboard {
 
 seat * {
     idle_wake keyboard switch
+    idle_inhibit keyboard switch
 }
 
 # per-application configuration
-for_window [class="^jetbrains-.+" window_type=dialog] focus
-for_window [app_id="xfce4-terminal" title="Python REPL"] floating enable
-for_window [app_id=kitty] max_render_time 3
-for_window [app_id=mpv] max_render_time off
+for_window {
+    [class="^jetbrains-.+" window_type=dialog]     focus
+    [class="^jetbrains-.+" title=win0]             floating enable
+    [class="^jetbrains-.+" title="^Welcome to .+"] floating enable
+
+    [app_id="xfce4-terminal" title="Python REPL"] floating enable
+
+    [app_id=kitty] max_render_time 5
+    [app_id=mpv]   max_render_time off
+}
+
+# colors
+set {
+    $green #184418
+    $gray #202020
+    $red #900000
+    $white #ffffff
+}
+
+client.focused $green $green $white $green $green
+client.unfocused $gray $gray $white $gray $gray
+client.focused_inactive $gray $gray $white $gray $gray
 
 include /etc/sway/config.d/*
 

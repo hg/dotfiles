@@ -1,16 +1,6 @@
 #!/usr/bin/sh
 
-# background services
-swayidle -w \
-  timeout 300 'swaymsg "output * dpms off"' \
-  resume 'swaymsg "output * dpms on"' &
-
-wlsunset -t 2200 -T 3200 -l 50.0 -L 82.6 &
-
-/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
-
 # applications
-thunar --daemon &
 firefox &
 # telegram-desktop &
 deadbeef &

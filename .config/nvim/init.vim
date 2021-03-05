@@ -185,7 +185,7 @@ nnoremap <M-f> :GFiles<CR>
 nnoremap <M-x> :Commands<CR>
 nnoremap <M-s> :Rg<CR>
 
-nnoremap <leader>f                 :call LanguageClient#textDocument_formatting_sync()<CR>
+nnoremap <leader>f                 :call LanguageClient#textDocument_formatting_sync()<CR>:e<CR>
 nnoremap <silent> <leader><leader> :call LanguageClient#textDocument_definition()<CR>
 nnoremap <silent> <leader>b        :call LanguageClient#textDocument_implementation()<CR>
 nnoremap <silent> <leader>m        <Plug>(lcn-menu)
